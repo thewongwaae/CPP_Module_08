@@ -37,6 +37,9 @@ void Span::addNumber( int n ) {
 	if (this->_pos >= this->_size)
 		throw Span::FullException();
 
+	if (std::find(this->_container.begin(), this->_container.end(), n) != this->_container.end())
+		throw Span::DuplicateNumberException();
+
 	this->_container.push_back(n);
 	this->_pos++;
 }
@@ -44,6 +47,9 @@ void Span::addNumber( int n ) {
 void Span::addRandNumber( int max, time_t seed ) {
 	if (this->_pos >= this->_size)
 		throw Span::FullException();
+
+	if (max <= 0)
+		throw Span::InvalidMaxException();
 
 	if (seed == 0)
 		seed = time(NULL);

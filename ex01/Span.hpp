@@ -38,4 +38,18 @@ class Span {
 				return "No span to find";
 			}
 	};
+
+	class DuplicateNumberException : public std::exception {
+		public:
+			virtual const char *what( void ) const throw() {
+				return "Duplicate number";
+			}
+	};
+
+	class InvalidMaxException : public std::exception {
+		public:
+			virtual const char *what( void ) const throw() {
+				return "Invalid max value";
+			}
+	}
 };

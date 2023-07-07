@@ -21,7 +21,7 @@ int main()
 	std::cout << std::endl << "---------------------------------------------------------------" << std::endl << std::endl;
 	{
 		Span a = Span(10000);
-		a.addNumber(10000, time(NULL));
+		a.addRandNumber(10000, time(NULL));
 		std::cout << "shortest span is " << a.shortestSpan() << std::endl;
 		std::cout << "longest span is " << a.longestSpan() << std::endl << std::endl;
 	}

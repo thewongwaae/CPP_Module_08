@@ -29,7 +29,9 @@ int main()
 	std::cout << "String Iterator: ";
 	while (s_it != e_it)
 	{
-		std::cout << *s_it << ", ";
+		std::cout << *s_it;
+		if (s_it + 1 != e_it)
+			std::cout << ", ";
 		++s_it;
 	}
 

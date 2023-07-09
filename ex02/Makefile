@@ -3,7 +3,7 @@ CPP		= c++ -fsanitize=address
 FLAGS	= -Wall -Wextra -Werror -std=c++98
 RM		= rm -f
 
-SRC		= main.cpp MutantStack.tpp
+SRC		= main.cpp
 INC		= MutantStack.hpp
 
 OBJ		= $(SRC:%.cpp=%.o)

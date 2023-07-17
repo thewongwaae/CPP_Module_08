@@ -1,6 +1,8 @@
 #pragma once
 
 #include <iostream>
+#include <algorithm>
+#include <cstdlib>
 #include <vector>
 
 class Span {
@@ -18,10 +20,13 @@ class Span {
 		~Span( void );
 
 		void addNumber( int n );
+		void addNumber( std::vector<int> const &numbers );
+		void addNumber( int const *begin, int const *end );
 		void addRandNumber( int max, time_t seed = 0);
 		int shortestSpan( void ) const;
 		int longestSpan( void ) const;
 
+		std::vector<int> getContainer( void ) const;
 		int getSize( void ) const;
 		int getPos( void ) const;
 
@@ -51,5 +56,7 @@ class Span {
 			virtual const char *what( void ) const throw() {
 				return "Invalid max value";
 			}
-	}
+	};
 };
+
+std::ostream &operator<<( std::ostream &o, Span const &span );

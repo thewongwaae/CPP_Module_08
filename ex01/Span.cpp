@@ -44,6 +44,32 @@ void Span::addNumber( int n ) {
 	this->_pos++;
 }
 
+void Span::addNumber( std::vector<int> const &numbers ) {
+	if (this->_pos + static_cast<int>(numbers.size()) > this->_size)
+		throw Span::FullException();
+
+	for (std::vector<int>::const_iterator it = numbers.begin(); it != numbers.end(); ++it) {
+		if (std::find(this->_container.begin(), this->_container.end(), *it) != this->_container.end())
+			throw Span::DuplicateNumberException();
+
+		this->_container.push_back(*it);
+		this->_pos++;
+	}
+}
+
+void Span::addNumber( int const *begin, int const *end ) {
+	if (this->_pos + std::distance(begin, end) > this->_size)
+		throw Span::FullException();
+
+	for (int const *it = begin; it != end; ++it) {
+		if (std::find(this->_container.begin(), this->_container.end(), *it) != this->_container.end())
+			throw Span::DuplicateNumberException();
+
+		this->_container.push_back(*it);
+		this->_pos++;
+	}
+}
+
 void Span::addRandNumber( int max, time_t seed ) {
 	if (this->_pos >= this->_size)
 		throw Span::FullException();
@@ -65,14 +91,11 @@ int Span::shortestSpan( void ) const {
 	if (this->_pos <= 1)
 		throw Span::NoSpanException();
 
-	std::vector<int> tmp(this->_container);
-	std::sort(tmp.begin(), tmp.end());
-
-	int min = tmp[1] - tmp[0];
+	int min = std::abs(this->_container[1] - this->_container[0]);
 
 	for (int i = 2; i < this->_pos; i++) {
-		if (tmp[i] - tmp[i - 1] < min)
-			min = tmp[i] - tmp[i - 1];
+		if (std::abs(this->_container[i] - this->_container[i - 1]) < min)
+			min = std::abs(this->_container[i] - this->_container[i - 1]);
 	}
 	return min;
 }
@@ -81,13 +104,20 @@ int Span::longestSpan( void ) const {
 	if (this->_pos <= 1)
 		throw Span::NoSpanException();
 
-	std::vector<int> tmp(this->_container);
-	std::sort(tmp.begin(), tmp.end());
+	int max = this->_container[1] - this->_container[0];
 
-	return tmp[this->_pos - 1] - tmp[0];
+	for (int i = 2; i < this->_pos; i++) {
+		if (this->_container[i] - this->_container[i - 1] > max)
+			max = this->_container[i] - this->_container[i - 1];
+	}
+	return abs(max);
 }
 
 /* Getters */
+
+std::vector<int> Span::getContainer( void ) const {
+	return this->_container;
+}
 
 int Span::getSize( void ) const {
 	return this->_size;
@@ -95,4 +125,15 @@ int Span::getSize( void ) const {
 
 int Span::getPos( void ) const {
 	return this->_pos;
+}
+
+/* ostream */
+
+std::ostream &operator<<( std::ostream &o, Span const &span ) {
+	o << "[";
+	for (size_t i = 0; i < span.getContainer().size(); ++i) {
+		o << " " << span.getContainer()[i] << " ";
+	}
+	o << "]" << std::endl;
+	return o;
 }
